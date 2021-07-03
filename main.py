@@ -1,6 +1,7 @@
 import discord
 import time
 import asyncio
+import random
 
 
 # requires a folder "/audio" that contains the audio files to be played
@@ -24,7 +25,7 @@ async def on_message(message):
 
     # pull up a prompt in chat on how to use the bot
     if message.content == "!help":
-        await message.channel.send("Jump into desired channel you want the bot to come into and follow below:\ncommand format: name mp3_number rep_count\nex: lorin 3 4 ..... = play lorin's 3rd spam track 4 times\n\nTo launch an attack on a specific channel, follow the below:\ncommand format: attack discord_tag name mp3_number rep_count\nex: attack 860743034979352586 lorin 1 2 .... = mic spams channel of id:860743034979352586 with lorin 1 2")
+        await message.channel.send("Jump into desired channel you want the bot to come into and follow below:\ncommand format: name mp3_number rep_count\nex: lorin 3 4 ..... = play lorin's 3rd spam track 4 times\n\nTo launch an attack on a specific channel, follow the below:\ncommand format: attack discord_tag name mp3_number rep_count\nex: attack 860743034979352586 lorin 1 2 .... = mic spams channel of id:860743034979352586 with lorin 1 2\nNote: specifying spam track '0' will randomize which track you get!")
         return
 
     # command format: "name mp3_number rep_count" ex: "lorin 3 4" => play lorin's 3rd spam track 4 times
@@ -61,6 +62,10 @@ async def on_message(message):
     # construct mp3 number 
     if properCmd == 1 and (int(tok_message[1]) >= 1 and int(tok_message[1]) <= mp3_count[mp3_idx]):
         mp3_name_to_play += tok_message[1]
+        mp3_name_to_play += ".mp3"
+    elif properCmd == 1 and int(tok_message[1]) == 0:
+        randTrack = random.randint(1, mp3_count[mp3_idx])
+        mp3_name_to_play += str(randTrack)
         mp3_name_to_play += ".mp3"
     elif properCmd == 1:
         properCmd = 0
